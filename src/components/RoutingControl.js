@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine'; 
-
+import { speakInstructions } from '../utils/speakInstruction';
 const RoutingControl = ({ start, destination }) => {
   const map = useMap();
 
@@ -21,25 +21,17 @@ const RoutingControl = ({ start, destination }) => {
       createMarker: () => null, 
       addWaypoints: false,
       draggableWaypoints: false, 
-    }).on('routesfound', function(e) {
-        const route = e.routes[0];
-        updateInstructions(route);
     }).on('routeselected', function(e) {
         const route = e.route;
-        updateInstructions(route);
+        speakInstructions(route)
     }).addTo(map);
 
-    const updateInstructions = (route) => {
-        const summary = route.summary;
-        const instructions = route.instructions;
-       console.log(summary,instructions);
-    };
-    
+   
  
  const controlContainer = document.querySelector('.leaflet-routing-container');
- if (controlContainer) {
-   controlContainer.style.display = 'none';
- }
+    if (controlContainer) {
+       controlContainer.style.display = 'none';
+    }
 
 
     return () => map.removeControl(routingControl);
