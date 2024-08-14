@@ -62,6 +62,7 @@ function App() {
     const intervalId = setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          console.log(position)
           const { latitude, longitude, heading } = position.coords;
           setStart([latitude, longitude]);
           setHeading(heading || 0);
