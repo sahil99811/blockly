@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine'; 
-import { speakInstructions } from '../utils/speakInstruction';
 const RoutingControl = ({ start, destination }) => {
   const map = useMap();
 
@@ -21,9 +20,6 @@ const RoutingControl = ({ start, destination }) => {
       createMarker: () => null, 
       addWaypoints: false,
       draggableWaypoints: false, 
-    }).on('routeselected', function(e) {
-        const route = e.route;
-        speakInstructions(route)
     }).addTo(map);
 
    
