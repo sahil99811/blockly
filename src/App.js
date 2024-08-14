@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import car from './car.png'
+import car from './car.png';
 import 'leaflet-routing-machine';
+
 const destination = [23.1686, 79.9339];
 
-const carIcon = new L.Icon({
-  iconUrl: car, // Replace with your car icon URL
-  iconSize: [50, 50], // Adjust size as needed
-  iconAnchor: [25, 25], // Anchor the icon in the center
-});
+const createCarIcon = (heading) => {
+  return L.divIcon({
+    html: `<img src="${car}" style="transform: rotate(${heading}deg); width: 50px; height: 50px;" />`,
+    iconSize: [50, 50],
+    className: 'custom-div-icon', // Optional: you can use this to style the div further
+  });
+};
 
 const RoutingControl = ({ start }) => {
   const map = useMap();
@@ -37,14 +40,14 @@ const RoutingControl = ({ start }) => {
 
 function App() {
   const [start, setStart] = useState(null);
-  const [heading, setHeading] = useState(0); // State to store heading
+  const [heading, setHeading] = useState(0);
 
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude, heading } = position.coords;
         setStart([latitude, longitude]);
-        setHeading(heading || 0); // Fallback to 0 if heading is null
+        setHeading(heading || 0);
       },
       (error) => {
         console.error('Error getting current location:', error);
@@ -54,7 +57,7 @@ function App() {
     );
 
     return () => {
-      navigator.geolocation.clearWatch(watchId); // Clear the watcher when the component unmounts
+      navigator.geolocation.clearWatch(watchId);
     };
   }, []);
 
@@ -62,7 +65,6 @@ function App() {
     const intervalId = setInterval(() => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log(position)
           const { latitude, longitude, heading } = position.coords;
           setStart([latitude, longitude]);
           setHeading(heading || 0);
@@ -72,11 +74,11 @@ function App() {
         },
         { enableHighAccuracy: true }
       );
-    }, 5000); // Update every 5 seconds
+    }, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
-  console.log(heading);
+
   return (
     <div className="App">
       <MapContainer center={start || [23.397221, 80.061234]} zoom={12} style={{ height: '90vh', width: '100%' }}>
@@ -87,11 +89,10 @@ function App() {
         {start && (
           <Marker
             position={start}
-            icon={carIcon}
-            style={{ transform: `rotate(${heading}deg)` }}
+            icon={createCarIcon(heading)}
           />
         )}
-        <Marker position={destination} icon={carIcon} />
+        <Marker position={destination} icon={createCarIcon(0)} />
         {start && <RoutingControl start={start} />}
       </MapContainer>
     </div>
