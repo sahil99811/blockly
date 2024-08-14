@@ -1,7 +1,7 @@
-
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet-routing-machine'; 
 
 const RoutingControl = ({ start, destination }) => {
   const map = useMap();
@@ -18,7 +18,29 @@ const RoutingControl = ({ start, destination }) => {
       lineOptions: {
         styles: [{ color: 'green', weight: 3 }],
       },
+      createMarker: () => null, 
+      addWaypoints: false,
+      draggableWaypoints: false, 
+    }).on('routesfound', function(e) {
+        const route = e.routes[0];
+        updateInstructions(route);
+    }).on('routeselected', function(e) {
+        const route = e.route;
+        updateInstructions(route);
     }).addTo(map);
+
+    const updateInstructions = (route) => {
+        const summary = route.summary;
+        const instructions = route.instructions;
+       console.log(summary,instructions);
+    };
+    
+ 
+ const controlContainer = document.querySelector('.leaflet-routing-container');
+ if (controlContainer) {
+   controlContainer.style.display = 'none';
+ }
+
 
     return () => map.removeControl(routingControl);
   }, [map, start, destination]);
@@ -27,3 +49,4 @@ const RoutingControl = ({ start, destination }) => {
 };
 
 export default RoutingControl;
+
