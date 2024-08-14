@@ -76,7 +76,7 @@ function App() {
 
     return () => clearInterval(intervalId);
   }, []);
-
+  console.log(heading);
   return (
     <div className="App">
       <MapContainer center={start || [23.397221, 80.061234]} zoom={12} style={{ height: '90vh', width: '100%' }}>
@@ -88,7 +88,6 @@ function App() {
           <Marker
             position={start}
             icon={carIcon}
-            // Rotate the icon using the heading
             style={{ transform: `rotate(${heading}deg)` }}
           />
         )}
