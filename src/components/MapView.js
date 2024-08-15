@@ -2,8 +2,7 @@
 import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import RoutingControl from './RoutingControl';
-import Icon from './Icon';
-
+import {Icon} from '../utils/Icon';
 const MapView = ({ currentLoc, destination, heading}) => {
   return (
     <MapContainer center={currentLoc} zoom={10} style={{ height: '100vh', width: '100%' ,zIndex:"100"}}>

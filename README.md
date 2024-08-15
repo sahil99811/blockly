@@ -1,70 +1,129 @@
-# Getting Started with Create React App
+Here's a sample `README.md` file that explains how the application works:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```markdown
+Real-Time Vehicle Tracking Application
 
-## Available Scripts
+This project is a React-based web application that allows users to view their current location, search for a destination, and track a vehicle's movement in real-time on a map. The app leverages the Leaflet library for map rendering and the browser's Geolocation API to track the current position.
 
-In the project directory, you can run:
+Features
 
-### `npm start`
+- Current Location Tracking: The application uses the `navigator.geolocation` API to track the user's current location and update it in real-time.
+- Destination Search: Users can search for a destination using the search bar. The app fetches suggestions from the OpenStreetMap Nominatim API.
+-Route Display:** Once a destination is selected, the app displays the route from the current location to the destination on the map.
+-Real-Time Vehicle Movement: The vehicle icon on the map updates its position and heading based on the user's current location and movement.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ Components
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. `useCurrentLocation`
 
-### `npm test`
+A custom React hook that tracks the user's current location and heading.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- State:
+  - `currentLoc`: Array of latitude and longitude representing the current location.
+  - `heading`: The direction the device is facing.
 
-### `npm run build`
+- Effect:
+  - The hook uses `navigator.geolocation.watchPosition` to continuously update the user's location and heading.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ 2. `Icon`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+A utility function that generates a Leaflet icon based on the provided heading and icon type (e.g., location, destination, car).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-Parameters:
+  - `heading`: The direction to rotate the icon.
+  - `iconType`: Determines which icon to display (location, destination, or car).
 
-### `npm run eject`
+3. `LocationSearch`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+A component that provides a search bar for users to enter a destination. It fetches suggestions from the OpenStreetMap Nominatim API and displays them.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- State:
+  - `query`: The user's input in the search bar.
+  - `suggestions`: An array of location suggestions fetched from the API.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Props:
+  - `onSelect(lat, lon)`: A function called when a suggestion is selected, passing the latitude and longitude of the selected location.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. `MapView`
 
-## Learn More
+A component that renders the map, displays the current location, and shows the route to the selected destination.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Props:
+  - `currentLoc`: The current location of the user.
+  - `destination`: The selected destination.
+  - `heading`: The direction the vehicle icon should face.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. `RoutingControl`
 
-### Code Splitting
+A component that handles routing between the current location and the destination using Leaflet Routing Machine.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Props:
+  - `start`: The starting point of the route (current location).
+  - `destination`: The endpoint of the route.
 
-### Analyzing the Bundle Size
+6. `HomePage`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The main page of the application that combines all components to provide the user interface.
 
-### Making a Progressive Web App
+- State:
+  - `destination`: The selected destination.
+  
+- Functions:
+  - `handleDestinationSelect(lat, lon)`: Updates the `destination` state when a user selects a location from the search results.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Getting Started
 
-### Advanced Configuration
+Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Node.js: Ensure you have Node.js installed on your machine.
 
-### Deployment
+ Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Clone the repository:
 
-### `npm run build` fails to minify
+   ```bash
+   git clone https://github.com/sahil99811/blockly.git
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. Navigate to the project directory:
+
+   ```bash
+   cd vehicle-tracking-app
+   ```
+
+3. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+Running the Application
+
+1. Start the development server:
+
+   ```bash
+   npm start
+   ```
+
+2. Open your browser:Navigate to `http://localhost:3000` to view the application.
+
+How It Works
+
+1. Track Current Location: The app automatically detects and displays your current location on the map using the Geolocation API.
+2. Search for a Destination: Use the search bar at the top to find a destination. Select a suggestion from the dropdown list.
+3. Display Route: Once a destination is selected, the map will show the route from your current location to the destination, along with a moving vehicle icon representing your current location and direction.
+
+Technologies Used
+
+- React.js: For building the user interface.
+- Leaflet: For map rendering and routing.
+- Nominatim API: For searching and retrieving location data.
+
+Notes
+
+- The application uses `navigator.geolocation` which requires the user to grant location access. Ensure your browser permissions are set accordingly.
+- The app assumes high-accuracy mode for geolocation, which may consume more battery on mobile devices.
+
+
+
+This `README.md` file provides an overview of how the application works, describes the components, and guides users on how to set up and run the project.

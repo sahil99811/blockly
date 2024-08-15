@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-const Icon = (heading, iconType) => {
+export const Icon = (heading, iconType) => {
     let iconSrc;
     if (iconType === 'location') {
         iconSrc = require('../assets/location.png'); 
@@ -17,4 +17,3 @@ const Icon = (heading, iconType) => {
     });
 };
 
-export default Icon;
