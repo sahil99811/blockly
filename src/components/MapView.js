@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import RoutingControl from './RoutingControl';
 import Icon from './Icon';
 
-const MapView = ({ currentLoc, destination, heading,setInstruction}) => {
+const MapView = ({ currentLoc, destination, heading}) => {
   return (
     <MapContainer center={currentLoc} zoom={10} style={{ height: '100vh', width: '100%' ,zIndex:"100"}}>
       <TileLayer
@@ -18,7 +18,7 @@ const MapView = ({ currentLoc, destination, heading,setInstruction}) => {
         <>
           <Marker position={destination} icon={Icon(0, 'destination')} />
           <Marker position={currentLoc} icon={Icon(heading, 'car')} />
-          <RoutingControl start={currentLoc} destination={destination} setInstruction={setInstruction} />
+          <RoutingControl start={currentLoc} destination={destination}  />
         </>
       )}
     </MapContainer>

@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
-let temp=0;
-const RoutingControl = ({ start, destination,setInstruction }) => {
+const RoutingControl = ({ start, destination }) => {
   const map = useMap();
   const routingControlRef = useRef(null);
 
@@ -28,13 +27,7 @@ const RoutingControl = ({ start, destination,setInstruction }) => {
         createMarker: () => null, 
         addWaypoints: false,
         draggableWaypoints: false,
-      }).on('routesfound', function(e) {
-        const route = e.routes[0];
-        if(temp!==route.instructions[0].distance){
-          temp=route.instructions[0].distance;
-          setInstruction(route.instructions[0])
-        }    
-    }).addTo(map);
+      }).addTo(map);
     }
 
     const controlContainer = document.querySelector('.leaflet-routing-container');
